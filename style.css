@@ -1,0 +1,136 @@
+:root {
+    --cmb-height: 18px;
+    --cmb-main: #8B5CF6;
+    --cmb-character: #F59E0B;
+    --cmb-history: #3B82F6;
+    --cmb-free: #16A34A;
+}
+
+/*
+ * Reserve a real row for the fixed full-width bar. SillyTavern's #sheld is
+ * a border-box flex column with #form_sheld at the bottom, so bottom padding
+ * reduces the chat area and lifts the input form instead of letting the bar
+ * cover it.
+ */
+#sheld {
+    padding-bottom: var(--cmb-height) !important;
+}
+
+/*
+ * SillyTavern switches to its mobile layout at 1000px. In that layout the
+ * page uses a different fixed/overflow model, so a viewport-fixed child of
+ * body can disappear. JS therefore moves the bar inside #sheld and marks the
+ * host with this class. The bar then occupies a real flex row and no padding
+ * reservation is needed.
+ */
+#sheld.cmb-mobile-bar-host {
+    padding-bottom: 0 !important;
+}
+
+#context-memory-bar {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: var(--cmb-height);
+    z-index: 100000;
+    display: flex;
+    overflow: hidden;
+    background: #111;
+    border-top: 1px solid rgba(255, 255, 255, 0.18);
+    box-shadow: 0 -1px 4px rgba(0, 0, 0, 0.35);
+    pointer-events: none;
+    user-select: none;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 10px;
+    line-height: var(--cmb-height);
+    font-variant-numeric: tabular-nums;
+    color: #fff;
+}
+
+
+#context-memory-bar.cmb-mobile-layout {
+    position: relative;
+    left: auto;
+    right: auto;
+    bottom: auto;
+    width: 100%;
+    min-height: var(--cmb-height);
+    flex: 0 0 var(--cmb-height);
+    align-self: stretch;
+    box-sizing: border-box;
+}
+
+#context-memory-bar .cmb-segment {
+    position: relative;
+    flex: 0 0 auto;
+    min-width: 0;
+    height: 100%;
+    overflow: hidden;
+    transition: width 140ms ease-out;
+}
+
+#context-memory-bar .cmb-segment-main {
+    background: var(--cmb-main);
+}
+
+#context-memory-bar .cmb-segment-character {
+    background: var(--cmb-character);
+}
+
+#context-memory-bar .cmb-segment-history {
+    background: var(--cmb-history);
+}
+
+#context-memory-bar .cmb-segment-free {
+    background: var(--cmb-free);
+}
+
+#context-memory-bar .cmb-number {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 3px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: clip;
+    font-weight: 600;
+    color: #fff;
+    text-shadow:
+        -1px -1px 1px rgba(0, 0, 0, 0.65),
+         1px -1px 1px rgba(0, 0, 0, 0.65),
+        -1px  1px 1px rgba(0, 0, 0, 0.65),
+         1px  1px 1px rgba(0, 0, 0, 0.65);
+}
+
+#context-memory-bar .cmb-total {
+    position: absolute;
+    right: 5px;
+    top: 1px;
+    bottom: 1px;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    padding: 0 5px;
+    border-radius: 3px;
+    background: rgba(0, 0, 0, 0.48);
+    color: #fff;
+    font-size: 10px;
+    font-weight: 700;
+    line-height: calc(var(--cmb-height) - 2px);
+    text-shadow: 0 1px 2px #000;
+    white-space: nowrap;
+}
+
+@media (max-width: 700px) {
+    :root {
+        --cmb-height: 16px;
+    }
+
+    #context-memory-bar,
+    #context-memory-bar .cmb-total {
+        font-size: 9px;
+    }
+}
